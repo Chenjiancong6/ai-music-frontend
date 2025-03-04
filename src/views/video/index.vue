@@ -1,0 +1,142 @@
+<template>
+  <div 
+    class="video-container" 
+    ref="containerRef"
+    @click="togglePlay"
+  >
+    <div class="video-wrapper">
+      <video
+        ref="videoPlayer"
+        class="video-element"
+        :poster="poster"
+        playsinline
+        webkit-playsinline
+        controls
+        @loadedmetadata="initVideo"
+      >
+        <source :src="videoSource" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
+const videoSource = ref('http://113.45.79.44/files/WeChat_20250303214305.mp4')
+const poster = ref('poster.jpg')
+const containerRef = ref<HTMLElement | null>(null)
+const videoPlayer = ref<HTMLVideoElement | null>(null)
+
+// 自动播放处理
+const initVideo = async () => {
+  if (!videoPlayer.value) return
+  console.log('自动播放处理',);
+  try {
+    // 先尝试非静音播放
+    videoPlayer.value.muted = false
+    await videoPlayer.value.play()
+  } catch (error) {
+    // 如果被阻止则静音播放
+    videoPlayer.value.muted = true
+    await videoPlayer.value.play()
+  } finally {
+    videoPlayer.value.volume = 0.6
+  }
+}
+
+// 响应式布局
+const updateLayout = () => {
+  if (!containerRef.value || !videoPlayer.value) return
+  
+  const container = containerRef.value
+  const video = videoPlayer.value
+  const isPortrait = container.clientHeight > container.clientWidth
+  
+  // 计算视频比例
+  const videoRatio = video.videoWidth / video.videoHeight || 16/9
+  const containerRatio = container.clientWidth / container.clientHeight
+  
+  if (isPortrait) {
+    // 竖屏模式
+    if (containerRatio > videoRatio) {
+      video.style.width = '100%'
+      video.style.height = 'auto'
+    } else {
+      video.style.width = 'auto'
+      video.style.height = '100%'
+    }
+    video.style.transform = 'translate(-50%, -50%)'
+  } else {
+    // 横屏模式
+    video.style.transform = `rotate(-90deg) translate(${container.clientHeight/2}px, ${container.clientWidth/2}px)`
+    video.style.width = `${container.clientHeight}px`
+    video.style.height = `${container.clientWidth}px`
+  }
+}
+
+const resizeObserver = new ResizeObserver(updateLayout)
+
+// 播放控制
+const togglePlay = () => {
+  if (!videoPlayer.value) return
+  videoPlayer.value.paused ? videoPlayer.value.play() : videoPlayer.value.pause()
+}
+
+onMounted(() => {
+  if (containerRef.value) {
+    resizeObserver.observe(containerRef.value)
+  }
+})
+
+onBeforeUnmount(() => {
+  resizeObserver.disconnect()
+})
+</script>
+
+<style scoped>
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  overflow: hidden;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* 横屏优化 */
+@media (orientation: landscape) {
+  .video-element {
+    transform-origin: center center;
+    object-fit: cover;
+  }
+}
+
+/* 控件优化 */
+::v-deep video::-webkit-media-controls-panel {
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent) !important;
+  opacity: 1 !important;
+  transition: opacity 0.3s;
+}
+
+::v-deep video:hover::-webkit-media-controls-panel {
+  opacity: 1 !important;
+}
+</style>

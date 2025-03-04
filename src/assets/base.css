@@ -1,0 +1,17 @@
+html, body, #app {
+  height: 100%;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style-type: none;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
+}
