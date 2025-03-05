@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount,nextTick } from 'vue'
+import { ref, onMounted, onBeforeUnmount,nextTick,watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const videoSource = ref('')
@@ -40,15 +40,11 @@ const getUrl = async () => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-    // 转换为 Blob 并生成对象URL
-    const blob = await response.blob()
-    const blobUrl = URL.createObjectURL(blob)
     
-    videoSource.value = blobUrl
+    videoSource.value = response.url || ''
     // 手动触发视频加载
-    await nextTick()
-    const videoElement:any = document.querySelector('video')
-    videoElement.load();
+    // await nextTick()
+    videoPlayer.value?.load();
 
   }catch (error) {
     console.error('API调用错误:', error)
@@ -109,8 +105,18 @@ const togglePlay = () => {
   videoPlayer.value.paused ? videoPlayer.value.play() : videoPlayer.value.pause()
 }
 
+// 深度监听路由参数变化
+watch(
+  () => route.query.id,
+  (newId, oldId) => {
+    if (newId && newId !== oldId) {
+      getUrl()
+    }
+  },
+  { immediate: true, deep: true }
+)
+
 onMounted(() => {
-  getUrl();
   if (containerRef.value) {
     resizeObserver.observe(containerRef.value)
   }
