@@ -95,7 +95,7 @@ const updateLayout = () => {
     video.style.transform = 'translate(-50%, -50%)'
   } else {
     // 横屏模式
-    video.style.transform = `rotate(-90deg) translate(${container.clientHeight/2}px, ${container.clientWidth/2}px)`
+    // video.style.transform = `rotate(-90deg) translate(${container.clientHeight/2}px, ${container.clientWidth/2}px)`
     video.style.width = `${container.clientHeight}px`
     video.style.height = `${container.clientWidth}px`
   }
