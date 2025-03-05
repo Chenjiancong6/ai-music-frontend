@@ -50,5 +50,14 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         }
       ]
     },
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://113.45.79.44',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
+    }
   };
 };

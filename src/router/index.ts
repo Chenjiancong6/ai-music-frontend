@@ -14,6 +14,7 @@ const router = createRouter({
       name: 'video',
       component: () => import('@/views/video/index.vue'),
       meta: {
+        id: '',
         title: '视频',
       }
     },
@@ -22,6 +23,7 @@ const router = createRouter({
       name: 'audio',
       component: () => import('@/views/audio/index.vue'),
       meta: {
+        id: '',
         title: '音频',
       }
     },

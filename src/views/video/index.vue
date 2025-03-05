@@ -21,17 +21,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount,nextTick } from 'vue'
+import { useRoute } from 'vue-router'
 
-const videoSource = ref('http://113.45.79.44/files/WeChat_20250303214305.mp4')
-const poster = ref('poster.jpg')
+const videoSource = ref('')
+const poster = ref('')
 const containerRef = ref<HTMLElement | null>(null)
 const videoPlayer = ref<HTMLVideoElement | null>(null)
+
+const route = useRoute()
+
+const getUrl = async () => {
+  const id = route?.query.id // 获取路由参数 http://113.45.79.44/files/123/123.mp4
+  // console.log('获取路由参数',id);
+  try {
+    const response = await fetch(`/api/files/${id}/${id}.mp4`)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    // 转换为 Blob 并生成对象URL
+    const blob = await response.blob()
+    const blobUrl = URL.createObjectURL(blob)
+    
+    videoSource.value = blobUrl
+    // 手动触发视频加载
+    await nextTick()
+    const videoElement:any = document.querySelector('video')
+    videoElement.load();
+
+  }catch (error) {
+    console.error('API调用错误:', error)
+  }
+}
 
 // 自动播放处理
 const initVideo = async () => {
   if (!videoPlayer.value) return
-  console.log('自动播放处理',);
   try {
     // 先尝试非静音播放
     videoPlayer.value.muted = false
@@ -84,6 +109,7 @@ const togglePlay = () => {
 }
 
 onMounted(() => {
+  getUrl();
   if (containerRef.value) {
     resizeObserver.observe(containerRef.value)
   }
