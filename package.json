@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build"
+    "dev": "vite --mode base --host",
+    "build": "vite build --mode pro",
+    "build:pro": "vite build --mode pro",
+    "prepare": "husky install",
+    "preview": "vite preview"
   },
   "dependencies": {
     "h5-video-play": "^1.2.1",
@@ -23,7 +23,6 @@
     "@vue/tsconfig": "^0.7.0",
     "npm-run-all2": "^7.0.2",
     "typescript": "~5.7.3",
-    "vite": "^6.1.0",
-    "vue-tsc": "^2.2.2"
+    "vite": "^6.1.0"
   }
 }
