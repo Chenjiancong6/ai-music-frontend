@@ -32,10 +32,11 @@ const videoPlayer = ref<HTMLVideoElement | null>(null)
 const route = useRoute()
 
 const getUrl = async () => {
+  const baseUrl = import.meta.env.VITE_API_BASE
   const id = route?.query.id // 获取路由参数 http://113.45.79.44/files/123/123.mp4
   // console.log('获取路由参数',id);
   try {
-    const response = await fetch(`/api/files/${id}/${id}.mp4`)
+    const response = await fetch(`${baseUrl}/files/${id}/${id}.mp4`)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
