@@ -7,26 +7,33 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect:'/video',
+      component: () => import('@/components/layout/index.vue'),
+      children:[
+        {
+          path: '/',
+          redirect:'/video',
+        },
+        {
+          path: '/video',
+          name: 'video',
+          component: () => import('@/views/video/index.vue'),
+          meta: {
+            id: '',
+            title: '视频',
+          }
+        },
+        {
+          path: '/audio',
+          name: 'audio',
+          component: () => import('@/views/audio/index.vue'),
+          meta: {
+            id: '',
+            title: '音频',
+          }
+        },
+      ]
     },
-    {
-      path: '/video',
-      name: 'video',
-      component: () => import('@/views/video/index.vue'),
-      meta: {
-        id: '',
-        title: '视频',
-      }
-    },
-    {
-      path: '/audio',
-      name: 'audio',
-      component: () => import('@/views/audio/index.vue'),
-      meta: {
-        id: '',
-        title: '音频',
-      }
-    },
+
   ],
 })
 

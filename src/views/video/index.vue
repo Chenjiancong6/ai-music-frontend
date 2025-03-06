@@ -10,6 +10,7 @@
         class="video-element"
         :poster="poster"
         playsinline
+        autoplay
         webkit-playsinline
         controls
         @loadedmetadata="initVideo"
@@ -25,7 +26,7 @@ import { ref, onMounted, onBeforeUnmount,nextTick,watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const videoSource = ref('')
-const poster = ref('')
+const poster = ref('') // 海报帧图片 URL，用于在视频处于下载中的状态时显示
 const containerRef = ref<HTMLElement | null>(null)
 const videoPlayer = ref<HTMLVideoElement | null>(null)
 
@@ -33,22 +34,25 @@ const route = useRoute()
 
 const getUrl = async () => {
   const baseUrl = import.meta.env.VITE_API_BASE
-  const id = route?.query.id // 获取路由参数 http://113.45.79.44/files/123/123.mp4
-  // console.log('获取路由参数',id);
-  try {
-    const response = await fetch(`${baseUrl}/files/${id}/${id}.mp4`)
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    
-    videoSource.value = response.url || ''
-    // 手动触发视频加载
-    // await nextTick()
-    videoPlayer.value?.load();
+  const id = route?.query.id 
+  // 获取路由参数 http://113.45.79.44/files/123/123.mp4
+  videoSource.value = `${baseUrl}/files/${id}/${id}.mp4`;
 
-  }catch (error) {
-    console.error('API调用错误:', error)
-  }
+  // 用 fetch API 获取视频地址 ，会导致视频初次加载缓慢，暂无找到分片加载解决方案
+  // try {
+  //   const response = await fetch(`${baseUrl}/files/${id}/${id}.mp4`)
+  //   if (!response.ok) {
+  //     throw new Error(`HTTP error! status: ${response.status}`)
+  //   }
+    
+  //   videoSource.value = response.url || ''
+  //   // 手动触发视频加载
+  //   // await nextTick()
+  //   videoPlayer.value?.load();
+
+  // }catch (error) {
+  //   console.error('API调用错误:', error)
+  // }
 }
 
 // 自动播放处理

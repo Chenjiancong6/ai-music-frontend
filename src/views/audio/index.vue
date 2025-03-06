@@ -34,7 +34,7 @@
   </div>
 </template>
 <script setup>
-import { ref, reactive, computed, onMounted } from "vue";
+import { ref, reactive, computed, onMounted, onBeforeUnmount } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
 const baseurl = import.meta.env.VITE_API_BASE;
@@ -208,6 +208,12 @@ function scrollToLyric(index) {
 // 生命周期钩子
 onMounted(() => {
   loadSongData();
+});
+
+onBeforeUnmount(() => {
+  audio.value.pause();
+  audio.value.currentTime = 0;
+  isPlaying.value = false;
 });
 
 const currentCover = computed(() => songData.cover);
