@@ -24,7 +24,7 @@ const router = createRouter({
         },
         {
           path: '/audio',
-          name: 'audio',
+          name: 'music',
           component: () => import('@/views/audio/index.vue'),
           meta: {
             id: '',
