@@ -102,7 +102,7 @@ onBeforeUnmount(() => {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: #2196F3;
+  background: #c3c3c3;
   border: none;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   cursor: pointer;
@@ -136,7 +136,7 @@ onBeforeUnmount(() => {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background: #2196F3;
+  background: #c3c3c3;
   border: none;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   cursor: pointer;

@@ -224,28 +224,17 @@ const nextSong = () => console.log("待实现");
 </script>
 
 <!-- 原有样式保持不变 -->
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: #1a1a1a;
-  color: #fff;
-  font-family: "Microsoft YaHei", sans-serif;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+<style scoped>
 
 .player-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   background: #2a2a2a;
   border-radius: 20px;
-  padding: 30px;
-  width: 400px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
