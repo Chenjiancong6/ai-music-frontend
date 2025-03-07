@@ -81,6 +81,8 @@ const handleClickOutside = (e) => {
 }
 
 onMounted(() => {
+  // 根据页面路由显示图标
+  currentType.value = route?.name;
   document.addEventListener('click', handleClickOutside)
 })
 
