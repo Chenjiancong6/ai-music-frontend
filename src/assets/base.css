@@ -14,4 +14,5 @@ ul, ol {
   margin: 0;
   outline: none;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; /**移除移动端点击按钮时的灰色背景**/
 }

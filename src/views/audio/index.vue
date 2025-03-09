@@ -225,13 +225,13 @@ const nextSong = () => console.log("待实现");
 
 <!-- 原有样式保持不变 -->
 <style scoped>
-
 .player-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  padding: 20px;
   overflow: hidden;
   background: #2a2a2a;
   border-radius: 20px;
@@ -265,13 +265,16 @@ const nextSong = () => console.log("待实现");
 }
 
 .song-title {
+  color: #fff;
   font-size: 22px;
   margin-bottom: 8px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .artist {
   color: #888;
   font-size: 16px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .progress-container {
@@ -335,7 +338,7 @@ const nextSong = () => console.log("待实现");
 
 /* 歌词容器 */
 .lyrics-container {
-  height: 200px;
+  height: 190px;
   overflow-y: auto;
   margin-top: 20px;
   text-align: center;
@@ -346,6 +349,8 @@ const nextSong = () => console.log("待实现");
   color: #888;
   margin: 12px 0;
   transition: color 0.3s;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
 }
 
 .lyric-line.active {

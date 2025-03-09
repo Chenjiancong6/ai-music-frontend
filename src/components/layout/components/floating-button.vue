@@ -1,20 +1,12 @@
 <template>
   <div class="fab-container" ref="container">
-    <button 
-      class="fab-main"
-      @click.stop="toggleMenu"
-    >
+    <button class="fab-main" @click.stop="toggleMenu">
       <i :class="[selectedIcon, { rotate: isRotating }]"></i>
     </button>
-    
+
     <div class="fab-options" :class="{ active: isOpen }">
-      <button
-        v-for="option in options"
-        :key="option.type"
-        class="fab-option"
-        :class="{ rotate: option.rotating }"
-        @click.stop="selectOption(option)"
-      >
+      <button v-for="option in options" :key="option.type" class="fab-option" :class="{ rotate: option.rotating }"
+        @click.stop="selectOption(option)">
         <i :class="option.icon"></i>
       </button>
     </div>
@@ -32,19 +24,19 @@ const router = useRouter()
 const route = useRoute()
 
 const options = ref([
-  { 
+  {
     type: 'video',
     icon: 'fas fa-video',
     rotating: false
   },
-  { 
+  {
     type: 'music',
     icon: 'fas fa-music',
     rotating: false
   }
 ])
 
-const selectedIcon = computed(() => 
+const selectedIcon = computed(() =>
   currentType.value === 'video' ? 'fas fa-video' : 'fas fa-music'
 )
 
@@ -57,10 +49,10 @@ const toggleMenu = () => {
 const selectOption = (option) => {
   const id = route?.query.id;
   // 根据选项跳转到不同的页面
-  if(option.type === 'video') {
+  if (option.type === 'video') {
     router.push(`/video?id=${id}`)
   }
-  if(option.type === 'music') {
+  if (option.type === 'music') {
     router.push(`/audio?id=${id}`)
   }
 
@@ -94,9 +86,9 @@ onBeforeUnmount(() => {
 <style scoped>
 /* 保持原有 CSS 样式不变 */
 .fab-container {
-  position: fixed;
-  bottom: 10rem;
-  right: 1rem;
+  position: absolute;
+  bottom: 200px;
+  right: 10px;
   z-index: 1000;
 }
 
@@ -106,7 +98,7 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   background: #c3c3c3;
   border: none;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.3s, background 0.3s;
   display: flex;
@@ -140,7 +132,7 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   background: #c3c3c3;
   border: none;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   margin: 15px 0;
   display: flex;
@@ -170,8 +162,13 @@ onBeforeUnmount(() => {
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .rotate {
